@@ -7,6 +7,9 @@
             <h2>{{title}}</h2>
             <p>{{description}}</p>
         </div>
+        <span @click="$emit('deleteTask')" class="material-icons close">
+            close
+        </span>
         
     </div>
 </template>
@@ -61,7 +64,8 @@ export default {
 .task:hover{
     background-color: hsla(0, 0%, 20%, 0.860);
 }
-span{
-    color:inherit;
+.close{
+    display: inline-block;
+ font-size:1.7rem;
 }
 </style>

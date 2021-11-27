@@ -21,6 +21,7 @@
 <div class="tasks">
     <tarea v-for="(task,$index) in listTasks" :key="$index" :title="task.title" :description="task.description" :complet="task.complet"
       @complet_tasks="complet_tasks($index)"
+      @deleteTask="deleteTask($index)"
     ></tarea>
     </div>
     
@@ -60,18 +61,21 @@ export default {
     }
   },
   methods: {
+    updateLocalStore(){
+      localStorage.setItem("listTasks", JSON.stringify(this.listTasks));
+    },
     createTasks(){
       if(this.newTask.title!=null){
           this.newTask.complet=false;
           this.listTasks.unshift(this.newTask);
-          localStorage.setItem("listTasks", JSON.stringify(this.listTasks));
           this.newTask={};
       }
+      this.updateLocalStore()
     },
     complet_tasks(index){
       if(this.listTasks[index].complet) this.listTasks[index].complet=false; 
       else this.listTasks[index].complet=true;
-       localStorage.setItem("listTasks", JSON.stringify(this.listTasks));
+      this.updateLocalStore()
     },
     settingsActive(){
       console.log("asd")
@@ -82,6 +86,10 @@ export default {
       const body = document.body;
       body.classList.replace(this.theme,theme)
       this.theme=theme;
+    },
+    deleteTask(index){
+      this.listTasks.splice(index,1)
+      this.updateLocalStore()
     }
   }
 }
