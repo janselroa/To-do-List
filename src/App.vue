@@ -7,10 +7,10 @@
         </span>
 
       <div v-if="settingsActivated" class="theme-segttins">
-        <div></div>
-        <img src="@/assets/ocean.jpg" alt="ocean">
-        <img src="@/assets/nature.jpg" alt="nature">
-        <img src="@/assets/city.jpg" alt="city">
+        <div @click="changeTheme('black')"></div>
+        <img @click="changeTheme('ocean')" src="@/assets/ocean.jpg" alt="ocean">
+        <img @click="changeTheme('nature')" src="@/assets/nature.jpg" alt="nature">
+        <img @click="changeTheme('city')" src="@/assets/city.jpg" alt="city">
       </div>
     </div>
 <div class="card-input">
@@ -27,7 +27,6 @@
     <footer class="footer">Created By Jansel Roa 2021 &copy;<a href="http://github.com/janselroa" target="_blank">Janselroa</a> </footer>
   </div>
 </template>
-
 <script>
 import tarea from "@/components/tarea.vue";
 export default {
@@ -36,15 +35,28 @@ export default {
     tarea,
   },
   created(){
+    const body = document.body;
+    body.classList.add('ocean')
     if(localStorage.getItem('listTasks')){
       this.listTasks=JSON.parse(localStorage.getItem('listTasks'));
     }
   },
   data(){
     return {
-      listTasks:[],
+      listTasks:[
+        {
+          title:'Example',
+          description:`
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit`
+        },{
+          title:'Example',
+          description:`
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit`
+        }
+      ],
       newTask:{},
       settingsActivated:false,
+      theme:"ocean",
     }
   },
   methods: {
@@ -65,6 +77,11 @@ export default {
       console.log("asd")
       this.settingsActivated=!this.settingsActivated;
       console.log(this.settingsActived)
+    },
+    changeTheme(theme){
+      const body = document.body;
+      body.classList.replace(this.theme,theme)
+      this.theme=theme;
     }
   }
 }
@@ -86,8 +103,21 @@ export default {
 body{
   height:100vh;
   font-family:'Roboto';
-  background:no-repeat url("assets/ocean.jpg");
   background-size: cover;
+  background-repeat:no-repeat;
+}
+.ocean{
+  background-image:url("assets/ocean.jpg") !important;
+}
+
+.nature{
+  background-image: url("assets/nature.jpg") !important;
+}
+.city{
+  background-image:url("assets/city.jpg") !important;
+}
+.black{
+  background: #222 !important;
 }
 #app{
   color:#fff;
@@ -120,7 +150,7 @@ body{
 }
 .tasks{
   width:100%;
-  margin-top:100px;
+  margin:100px 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
